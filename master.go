@@ -3,7 +3,6 @@ package master
 import (
 	"context"
 	"io"
-	_ "net/http/pprof"
 	"os/exec"
 	"sync"
 )
