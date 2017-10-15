@@ -2,8 +2,12 @@ package master
 
 import (
 	"context"
+	"fmt"
 	"io"
+	_ "net/http/pprof"
+	"os"
 	"os/exec"
+	"strings"
 	"sync"
 )
 
@@ -83,6 +87,11 @@ func Run(ctx context.Context, s *Slave, n int, repeat bool) {
 				case cmd := <-queue:
 					// run command blocking
 					if err := cmd.Run(); err != nil {
+						fmt.Fprintf(
+							os.Stderr,
+							"error while running %s %s: %v\n",
+							s.Path, strings.Join(s.Args, " "), err,
+						)
 						// if was any errors than stop runner
 						break run
 					}
